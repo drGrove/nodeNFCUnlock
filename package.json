@@ -1,0 +1,32 @@
+{
+  "name": "nodeNFCUnlock",
+  "version": "1.0.0",
+  "description": "Unlock your Computer with your NFC Chip/Tag(Currnetly Linux Only)",
+  "main": "server.js",
+  "dependencies": {
+    "pg": "~2.6.2",
+    "serialport": "~1.1.3",
+    "sys": "~0.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:drGrove/nodeNFCUnlock.git"
+  },
+  "keywords": [
+    "NFC",
+    "Arduino",
+    "Postgres",
+    "Serial"
+  ],
+  "author": "Daniel Grove <danny@drgrovellc.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drGrove/nodeNFCUnlock/issues"
+  },
+  "homepage": "https://github.com/drGrove/nodeNFCUnlock"
+}
