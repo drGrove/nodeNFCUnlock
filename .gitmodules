@@ -1,0 +1,3 @@
+[submodule "SecureDoorOpener"]
+	path = SecureDoorOpener
+	url = git@github.com:waterbury/SecureDoorOpener.git
