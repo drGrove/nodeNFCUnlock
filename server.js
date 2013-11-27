@@ -36,8 +36,9 @@ function clearData() {
 }
 
 sp.on("open", function(){
-    console.log("open");
+    console.log("Reader active and waiting for card");
     sp.on('data', function(data){
+        console.log("Reading Card......")
         var dataStringBuf = new String(data);
         if(dataStringBuf.indexOf("*") != 1) {
             readData += dataStringBuf;
@@ -52,7 +53,7 @@ sp.on("open", function(){
             console.log("Card: " + card);
             // Check for Door Auth Code
             // Check postgres for nfc/rfid match
-            pgClient.query("SELECT firstname, lastname from members m left join cards c on m.memberid = c.memberid where c.cardid = '" + card + "'", function(err, result) {
+            pgClient.query("SELECT firstname, lastname from users u left join cards c on u.id = c.user_id where c.cardid = '" + card + "'", function(err, result) {
                 if(result.rowCount > 0) {
                     // Grab member Data
                     var fname = result.rows[0].firstname;
