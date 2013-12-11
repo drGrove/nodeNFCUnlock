@@ -7,7 +7,7 @@ CREATE TABLE users
 (
     id bigint NOT NULL,
     firstname character varying(50),
-    lastname character varying(50)
+    lastname character varying(50),
     isactive boolean DEFAULT true
 );
 
