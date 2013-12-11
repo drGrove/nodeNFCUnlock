@@ -3,7 +3,7 @@ CREATE TYPE cardtype AS ENUM (
     'rfid'
 );
 
-CREATE DATABASE users
+CREATE TABLE users
 (
     id bigint NOT NULL,
     firstname character varying(50),
@@ -11,7 +11,7 @@ CREATE DATABASE users
     isactive boolean DEFAULT true
 )
 
-CREATE DATABASE cards 
+CREATE TABLE cards 
 (
     user_id integer,
     cardtype cardtype,
