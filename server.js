@@ -1,29 +1,15 @@
 var serial = require('serialport').SerialPort,
-    pg = require('pg'),
     sys = require('sys'),
     exec = require('child_process').exec,
-    config = require('./config');
+    config = require('./libs/config'),
+    user = require('./libs/user'),
+    card = require('./libs/cards'),
+    sp = new serial(config.serial, {
+        baudrate: 57600
+    }); 
 
-var sp = new serial("/dev/ttyACM0", {
-    baudrate: 57600
-}); 
-
-var pgConn = "postgres://" + config.postgres.user + ":" + config.postgres.password + "@" + config.postgres.host + "/" + config.postgres.database;
-
-var pgClient = new pg.Client(pgConn);
-
-pgClient.connect(function(err) {
-    if(err) {
-        sp.write("Failure to connect to database");
-        return console.error('Could not connect to postgres', err);
-    } else {
-        console.log('Connected to Postgres');
-        sp.write("Connect to Postgres");
-    }
-});
 
 function puts (error, stdout, stderr) { sys.puts(stdout)}
-
 // Check for connection 
 var readData = "";
 
@@ -49,10 +35,20 @@ sp.on("open", function(){
         if(readData.indexOf("*") != -1) {
             var cardData = readData.split(",");
             var cardBuf = cardData[4];
-            var card = cardBuf.replace(/_/g, "");
-            console.log("Card: " + card);
+            var cardid = cardBuf.replace(/_/g, "");
+            console.log("Card: " + cardid);
             // Check for Door Auth Code
             // Check postgres for nfc/rfid match
+            new card.Card({cardid: cardid})
+                .fetch()
+                .then(function(){
+                    exec("killall xscreensaver", puts);
+                    exec("xscreensaver");
+                })
+                .otherwise(function(err){
+                    console.log(err)
+                })
+                /*
             pgClient.query("SELECT firstname, lastname from users u left join cards c on u.id = c.user_id where c.cardid = '" + card + "'", function(err, result) {
                 if(result.rowCount > 0) {
                     // Grab member Data
@@ -66,6 +62,7 @@ sp.on("open", function(){
                 }
                 clearData();
             });
+            */
         }
     });
 });
