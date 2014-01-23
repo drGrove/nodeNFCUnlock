@@ -4,9 +4,10 @@
   "description": "Unlock your Computer with your NFC Chip/Tag(Currnetly Linux Only)",
   "main": "server.js",
   "dependencies": {
-    "pg": "~2.6.2",
     "serialport": "~1.1.3",
-    "sys": "~0.0.1"
+    "sys": "~0.0.1",
+    "bookshelf": "~0.6.2",
+    "sqlite3": "~2.1.19"
   },
   "devDependencies": {},
   "scripts": {
