@@ -41,9 +41,11 @@ sp.on("open", function(){
             // Check postgres for nfc/rfid match
             new card.Card({cardid: cardid})
                 .fetch()
-                .then(function(){
-                    exec("killall xscreensaver", puts);
-                    exec("xscreensaver");
+                .then(function(fromDB){
+                    if( fromDB === "null" ){
+                        exec("killall xscreensaver", puts);
+                        exec("xscreensaver");
+                    }
                 })
                 .otherwise(function(err){
                     console.log(err)
