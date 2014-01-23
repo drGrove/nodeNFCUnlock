@@ -18,7 +18,8 @@ function clearData() {
     readData = "";
     cardData = "";
     cardBuf = "";
-    card = "";
+    cardid = "";
+    fromDB = "";
 }
 
 sp.on("open", function(){
@@ -41,14 +42,17 @@ sp.on("open", function(){
             // Check postgres for nfc/rfid match
             new card.Card({cardid: cardid})
                 .fetch()
-                .then(function(fromDB){
-                    if( fromDB === "null" ){
+                .then(function(crd){
+                    fromDB= crd.get('cardid') || null
+                    if( fromDB == cardid ){
                         exec("killall xscreensaver", puts);
                         exec("xscreensaver");
                     }
+                    clearData();
                 })
                 .otherwise(function(err){
                     console.log(err)
+                    clearData();
                 })
                 /*
             pgClient.query("SELECT firstname, lastname from users u left join cards c on u.id = c.user_id where c.cardid = '" + card + "'", function(err, result) {
